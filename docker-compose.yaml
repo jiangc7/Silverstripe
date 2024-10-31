@@ -1,0 +1,35 @@
+version: '3'
+services:
+ web:
+   image: myapp:1.1
+   working_dir: /var/www/html
+   ports:
+     - 80:80
+   volumes:
+    # - ".:/var/www/html" # 使用绝对路径
+     - "C:/Users/Elvis/project/ss/apache-custom.conf:/etc/apache2/conf-enabled/custom.conf" # 挂载自定义配置文件
+   command: >
+      /bin/bash -c "chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && apache2-foreground"
+   environment:
+     - APACHE_RUN_USER=www-data
+     - APACHE_RUN_GROUP=www-data
+     - DOCUMENT_ROOT=/var/www/html/SS1/public
+     - SS_TRUSTED_PROXY_IPS=*
+     - SS_ENVIRONMENT_TYPE=dev
+     - SS_DATABASE_SERVER=database
+     - SS_DATABASE_NAME=SS_mysite
+     - SS_DATABASE_USERNAME=root
+     - SS_DATABASE_PASSWORD=
+     - SS_DEFAULT_ADMIN_USERNAME=admin
+     - SS_DEFAULT_ADMIN_PASSWORD=password
+
+ database:
+   image: mysql
+   volumes:
+    - db-data:/var/lib/mysql
+   restart: always
+   environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+
+volumes:
+ db-data:

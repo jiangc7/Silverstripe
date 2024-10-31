@@ -1,0 +1,1 @@
+docker run --interactive --tty --volume C:\Users\Elvis\.ssh\id_ed25519.pub --volume composer_cache:/tmp/cache --volume C:\Users\Elvis\project\silverstripe:/app silverstripe/platform-build
